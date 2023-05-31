@@ -100,19 +100,16 @@ HashTable hash_table_create(int size, int (*hash)(void*, int), bool (*key_equal)
     } else {
         htable->size = size;
     }
-
     if (hash == NULL) {
         htable->hash = _default_hash;
     } else {
         htable->hash = hash;
     }
-
     if (key_equal == NULL) {
         htable->key_equal = _default_key_equal;
     } else {
         htable->key_equal = key_equal;
     }
-    
     htable->key_destroy = key_destroy;
     htable->value_destroy = value_destroy;
 

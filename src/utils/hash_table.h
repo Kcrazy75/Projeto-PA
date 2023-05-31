@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include "list.h"
 
-#define DEFAULT_SIZE 100
+#define DEFAULT_SIZE 101
 
 typedef struct t_HashTable* HashTable;
 

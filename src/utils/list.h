@@ -153,7 +153,7 @@ void list_make_empty(List list, void (*free_element)(void*));
  * @param list The linked list.
  * @param out_array The array to fill with the elements of the list.
  */
-void list_to_array(List list, void** out_array);
+void** list_to_array(List list);
 
 /**
  * @brief Returns the number of occurrences on an element.
@@ -190,7 +190,7 @@ int list_remove_all(List list, bool (*equal_element)(void*, void*), void (*free_
 int list_remove_duplicates(List list, bool (*equal_element)(void*, void*), void (*free_element)(void*), void* element);
 
 /**
- * @brief Returns the resulting from the join of two lists.
+ * @brief Returns the result from the join of two lists.
  *
  * Preserves order.
  *
@@ -225,7 +225,7 @@ List list_get_sublist_between(List list, int start_idx, int end_idx);
  *
  * @param list The linked list.
  * @param indexes The array of unordered indexes.
- * @param[out] count The size of the array.
+ * @param count The size of the array.
  * @return List A list with the elements in the given array of unordered indexes.
  */
 List list_get_sublist(List list, int indexes[], int count);
@@ -247,5 +247,28 @@ List list_map(List list, void* (*func)(void*));
  * @return List A list with the elements that return true when applied with the given function.
  */
 List list_filter(List list, bool (*func)(void*));
+
+/**
+ * @brief Starts the iteration of the list.
+ *
+ * @param list The linked list.
+ */
+void list_iterator_start(List list);
+
+/**
+ * @brief Returns true if the list iterator has more elements.
+ *
+ * @param list The linked list.
+ * @return bool True if the list iterator has more elements.
+ */
+bool list_iterator_has_next(List list);
+
+/**
+ * @brief Returns the next element of the current list iterator.
+ *
+ * @param list The linked list.
+ * @return void* The next element of the list.
+ */
+void* list_iterator_get_next(List list);
 
 #endif
