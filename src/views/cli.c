@@ -12,25 +12,31 @@
 void run_cli() {
     char* line = NULL;
     size_t len = 0;
+
     App app = new_app();
+
+
     while (true) {
         getline(&line, &len, stdin);
         line[strlen(line) - 1] = '\0';
-        if (strlen(line) == 0) {
-            break;
-        }
+
+        if (strlen(line) == 0) { break; }
+
         char* command = strtok(line, " ");
+        
         if (strcmp(command, "RJ") == 0) {
             char* name = strtok(NULL, " ");
-            if (has_user(app, name)) {
-                printf("Utilizador existente.\n");
+            if(name == NULL){ printf("Instrução inválida.\n"); }
+            else if (has_user(app, name)) {
+                    printf("Utilizador existente.\n");
             } else {
                 register_user(app, name);
                 printf("Utilizador registado com sucesso.\n");
             }
         } else if (strcmp(command, "EJ") == 0) {
             char* name = strtok(NULL, " ");
-            if (!has_user(app, name)) {
+            if(name == NULL){ printf("Instrução inválida.\n"); }
+            else if (!has_user(app, name)) {
                 printf("Utilizador inexistente.\n");
             } else if (check_zero_sim_spaces(app, name) == true) {
                 printf("Utilizador tem espaços de simulação sem simulações realizadas.\n");
@@ -51,7 +57,9 @@ void run_cli() {
             }
         } else if (strcmp(command, "RE") == 0) {
             char* name = strtok(NULL, " ");
-            if (!has_user(app, name)) {
+
+            if(name == NULL){ printf("Instrução inválida.\n"); }
+            else if (!has_user(app, name)){
                 printf("Utilizador inexistente.\n");
             } else {
                 char* space_id = register_space(app, name);
@@ -60,19 +68,72 @@ void run_cli() {
         } else if (strcmp(command, "EE") == 0) {
             char* name = strtok(NULL, " ");
             char* space_id = strtok(NULL, " ");
-            if (has_user(app, name) == false) {
-                printf("Utilizador inexistente.\n");
 
+            if(name == NULL || space_id == NULL){ printf("Instrução inválida.\n"); }
+            else if (has_user(app, name) == false) {
+                printf("Utilizador inexistente.\n");
             } else if (check_if_space_exist(app, name, space_id) == false) {
                 printf("Espaço de simulação inexistente.\n");
-
             } else {
                 remove_simulation_space(app, name, space_id);
                 printf("Espaço de simulação removido com sucesso.\n");
             }
         } else if (strcmp(command, "RP") == 0) {
+            char* name = strtok(NULL, " ");
+            char* space_id = strtok(NULL," ");
+
+            if(name == NULL || space_id == NULL){ printf("Instrução inválida.\n"); }
+            else{
+                //Linha 2
+                char* line2 = NULL;
+                len = 0;
+                    
+                getline(&line2,&len,stdin);
+                line2[strlen(line2) - 1] = '\0';
+
+                double massa = atof(strtok(NULL, " "));     //strtod(char*) e melhor mas mais complicado
+                double carga = atof(strtok(NULL, " "));
+
+                //Linha 3
+                char* line3 = NULL;
+                len = 0;
+                    
+                getline(&line3,&len,stdin);
+                line3[strlen(line3) - 1] = '\0';
+
+                int piX = atoi(strtok(NULL, " "));
+                int piY = atoi(strtok(NULL, " "));
+                int piZ = atoi(strtok(NULL, " "));
+
+                //Linha 4
+                char* line4 = NULL;
+                len = 0;
+                    
+                getline(&line4,&len,stdin);
+                line4[strlen(line4) - 1] = '\0';
+
+                int vX = atoi(strtok(NULL, " "));
+                int vY = atoi(strtok(NULL, " "));
+                int vZ = atoi(strtok(NULL, " "));
+            
+                if (!has_user(app, name)) { 
+                printf("Utilizador inexistente.\n");
+                } else {
+                    if (check_if_space_exist(app,name,space_id)) {
+                        if(massa > 0){
+                            int posI[3] = {piX,piY,piZ};
+                            int v[3] = {vX,vY,vZ};
+                        
+                            int part_id = register_particle(app,name,space_id,massa,carga,posI,v);
+                            printf("%s%d%s","Partícula registada com identificador ",part_id,".\n");
+                        } else { printf("Massa inválida.\n"); }
+                    } else { printf("Espaço de simulação inexistente.\n"); }
+                }
+            }
         } else if (strcmp(command, "AP") == 0) {
+
         } else if (strcmp(command, "S") == 0) {
+
         } else {
             printf("Instrução inválida.\n");
         }

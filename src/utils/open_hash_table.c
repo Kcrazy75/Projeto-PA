@@ -28,6 +28,7 @@ int _default_hash(void* key, int size) {
     char* k = (char*)key;
     int hash = 0;
     int a = 127;
+    
     for (size_t i = 0; i < strlen(k); i++) {
         hash = (hash * a + k[i]) % size;
     }
