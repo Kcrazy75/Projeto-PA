@@ -11,6 +11,7 @@ struct Node_ {
 struct List_ {
     Node head;
     Node tail;
+    Node iterator;
     int size;
 };
 
@@ -329,4 +330,49 @@ void list_make_empty(List list, void (*free_element)(void*)) {
 
     list->tail = NULL;
     list->size = 0;
+}
+
+void list_iterator_start(List list) {
+    if (list != NULL) {
+        list->iterator = list->head;
+    }
+}
+
+bool list_iterator_has_next(List list) {
+    if (list != NULL && list->iterator != NULL) {
+        return true;
+    }
+    return false;
+}
+
+void* list_iterator_get_next(List list) {
+    void* element = list->iterator->element;
+    list->iterator = list->iterator->next;
+    return element;
+}
+
+void** list_to_array(List list) {
+    if (list == NULL || list->size == 0) {
+        return NULL;
+    }
+
+    void** array = malloc(list->size * sizeof(void*));
+    if (array == NULL) {
+        return NULL;  // Failed to allocate memory
+    }
+
+    Node node = list->head;
+    int i = 0;
+    while (node != NULL && i < list->size) {
+        array[i] = node->element;
+        node = node->next;
+        i++;
+    }
+
+    if (i != list->size) {
+        free(array);
+        return NULL;
+    }
+
+    return array;
 }

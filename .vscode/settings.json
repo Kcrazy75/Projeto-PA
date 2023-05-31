@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "app_components.h": "c",
+        "list.h": "c",
+        "hash_table.h": "c",
+        "control.h": "c"
+    }
+}
