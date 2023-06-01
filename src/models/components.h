@@ -12,7 +12,8 @@ typedef struct {
 
 typedef struct {
     char* id;
-    HashTable particules;
+    HashTable particles;
+    int next_particle_id;
     int number_of_simulations;
 } tSpace, *Space;
 
@@ -32,8 +33,8 @@ Space new_space(char* space_id);
 
 void free_space(void* space);
 
-Part new_particule(char* name, char* part_id, double massa, double carga, int posI[], int v[]);
+Part new_particle(char* name, double massa, double carga, int posI[], int v[]);
 
-void free_particule(Part particule);
+void free_particle(Part particle);
 
 #endif

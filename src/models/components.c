@@ -24,6 +24,7 @@ void free_user(User user) {
 Space new_space(char* space_id) {
     Space space = malloc(sizeof(tSpace));
     space->id = strdup(space_id);
+    space->next_particle_id = 1;
     
     return space;
 }
@@ -34,22 +35,23 @@ void free_space(void* space) {
     free(s);
 }
 
-Part new_particule(char* name, char* part_id, double massa, double carga, int posI[], int v[]){
-    Part particule = malloc(sizeof(tPart));
+Part new_particle(char* name, double massa, double carga, int posI[], int v[]){
+    Part particle = malloc(sizeof(tPart));
 
-    particule->name = strdup(name);
-    particule->massa = massa;
-    particule->carga = carga;
+    particle->name = strdup(name);
+    particle->massa = massa;
+    particle->carga = carga;
     
     for(int a = 0;a < 3;a++){
-        particule->coord[a] = posI[a];
-        particule->v[a] = v[a];
+        particle->coord[a] = posI[a];
+        particle->v[a] = v[a];
     }
 
-    return particule;
+    return particle;
 }
 
-void free_particule(Part part){
+void free_particle(Part part){
     free(part->name);
-    //free(part->carga);
+    //hash_table_destroy(part);
+    free(part);
 }

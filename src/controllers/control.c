@@ -8,6 +8,7 @@
 App new_app() {
     App app = malloc(sizeof(tApp));
     app->users = hash_table_create(0, NULL, NULL, NULL, (void (*)(void*))free_user);
+    app->particles = hash_table_create(0,NULL,NULL,NULL,NULL);
     return app;
 }
 
@@ -88,13 +89,25 @@ void remove_simulation_space(App app, char* name, char* space_id) {
     free_space(space);
 }
 
-int register_particle(App app, char* name, char* space_id, double massa, double carga, int posI[], int v[]){
-    Space space = hash_table_get(app->users, space_id);
+char* register_particle(App app, char* name, char* space_id,double massa, double carga, int posI[], int v[]){
+    Space space = hash_table_get(app->users, name);
     
-    int part_id = hash_table_size + 1;
-    Part particule = new_particule(name,part_id,massa,carga,posI,v);
+    char part_id[80];
+    sprintf(part_id, "%d", space->next_particle_id);
+    space->next_particle_id++;
 
-    hash_table_insert(space->particules, space_id, space);
+    Part particle = new_particle(name,massa,carga,posI,v);
 
-    return part_id;
+    hash_table_insert(space->particles, space_id, particle);
+    //hash_table_create(0,NULL,NULL,NULL,free_particle);
+
+    char* part = part_id;
+    return part;
+}
+
+void change_particle(App app, char* name, char* space_id,double massa, double carga, int posI[], int v[]){
+    
+    
+    //if(cp == 1){ printf("Partícula alterada com sucesso.\n"); }
+    //else{ printf("Partícula removida com sucesso.\n"); }
 }

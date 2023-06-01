@@ -6,6 +6,7 @@
 
 typedef struct {
     HashTable users;
+    HashTable particles;
 } tApp, *App;
 
 App new_app();
@@ -29,5 +30,9 @@ char* register_space(App app, char* user_name);
 bool check_if_space_exist(App app, char* name, char* space_id);
 
 void remove_simulation_space(App app, char* name, char* space_id);
+
+char* register_particle(App app, char* name, char* space_id, double massa, double carga, int posI[], int v[]);
+
+void change_particle(App app, char* name, char* space_id,double massa, double carga, int posI[], int v[]);
 
 #endif
