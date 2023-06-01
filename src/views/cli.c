@@ -15,7 +15,6 @@ void run_cli() {
 
     App app = new_app();
 
-
     while (true) {
         getline(&line, &len, stdin);
         line[strlen(line) - 1] = '\0';
@@ -82,6 +81,7 @@ void run_cli() {
             char* name = strtok(NULL, " ");
             char* space_id = strtok(NULL," ");
 
+            //Seg-Fault fix
             if(name == NULL || space_id == NULL){ printf("Instrução inválida.\n"); }
             else{
                 //Linha 2
@@ -91,9 +91,11 @@ void run_cli() {
                 getline(&line2,&len,stdin);
                 line2[strlen(line2) - 1] = '\0';
 
-                double massa = atof(strtok(NULL, " "));     //strtod(char*) e melhor mas mais complicado
-                double carga = atof(strtok(NULL, " "));
-
+                char* string = strtok(line2," ");
+                double massa = atof(string);
+                string = strtok(NULL, " ");
+                double carga = atof(string);
+                
                 //Linha 3
                 char* line3 = NULL;
                 len = 0;
@@ -101,7 +103,7 @@ void run_cli() {
                 getline(&line3,&len,stdin);
                 line3[strlen(line3) - 1] = '\0';
 
-                int piX = atoi(strtok(NULL, " "));
+                int piX = atoi(strtok(line3, " "));
                 int piY = atoi(strtok(NULL, " "));
                 int piZ = atoi(strtok(NULL, " "));
 
@@ -112,7 +114,7 @@ void run_cli() {
                 getline(&line4,&len,stdin);
                 line4[strlen(line4) - 1] = '\0';
 
-                int vX = atoi(strtok(NULL, " "));
+                int vX = atoi(strtok(line4, " "));
                 int vY = atoi(strtok(NULL, " "));
                 int vZ = atoi(strtok(NULL, " "));
             
@@ -124,14 +126,69 @@ void run_cli() {
                             int posI[3] = {piX,piY,piZ};
                             int v[3] = {vX,vY,vZ};
                         
-                            int part_id = register_particle(app,name,space_id,massa,carga,posI,v);
-                            printf("%s%d%s","Partícula registada com identificador ",part_id,".\n");
+                            char* part_id = register_particle(app,name,space_id,massa,carga,posI,v);
+                            printf("%s%s%s","Partícula registada com identificador ",part_id,".\n");
                         } else { printf("Massa inválida.\n"); }
                     } else { printf("Espaço de simulação inexistente.\n"); }
                 }
             }
         } else if (strcmp(command, "AP") == 0) {
+            char* name = strtok(NULL, " ");
+            char* space_id = strtok(NULL," ");
 
+            //Seg-Fault fix
+            if(name == NULL || space_id == NULL){ printf("Instrução inválida.\n"); }
+            else{
+                //Linha 2
+                char* line2 = NULL;
+                len = 0;
+                    
+                getline(&line2,&len,stdin);
+                line2[strlen(line2) - 1] = '\0';
+
+                char* string = strtok(line2," ");
+                double massa = atof(string);
+                string = strtok(NULL, " ");
+                double carga = atof(string);
+                
+                //Linha 3
+                char* line3 = NULL;
+                len = 0;
+                    
+                getline(&line3,&len,stdin);
+                line3[strlen(line3) - 1] = '\0';
+
+                int piX = atoi(strtok(line3, " "));
+                int piY = atoi(strtok(NULL, " "));
+                int piZ = atoi(strtok(NULL, " "));
+
+                //Linha 4
+                char* line4 = NULL;
+                len = 0;
+                    
+                getline(&line4,&len,stdin);
+                line4[strlen(line4) - 1] = '\0';
+
+                int vX = atoi(strtok(line4, " "));
+                int vY = atoi(strtok(NULL, " "));
+                int vZ = atoi(strtok(NULL, " "));
+            
+                if (!has_user(app, name)) { 
+                printf("Utilizador inexistente.\n");
+                } else {
+                    if (check_if_space_exist(app,name,space_id)) {
+                        if(/*particula existe ou nao*/true){
+                            if(massa > 0){      //validar massa
+                                int posI[3] = {piX,piY,piZ};
+                                int v[3] = {vX,vY,vZ};
+                                change_particle(app,name,space_id,massa,carga,posI,v);
+                                //if(cp == 1){ printf("Partícula alterada com sucesso.\n"); }
+                                //else{ printf("Partícula removida com sucesso.\n"); }
+                            }
+                        } else { printf("Massa inválida.\n"); } //remove se PO nao existe
+                    } else { printf("Espaço de simulação inexistente.\n"); }
+                }
+            }
         } else if (strcmp(command, "S") == 0) {
 
         } else {
