@@ -30,3 +30,9 @@ void free_space(void* space) {
     free(s->id);
     free(s);
 }
+
+void free_particle(void* particle) {
+    Particle p = (Particle)particle;
+    free(p->part_id);
+    free(p);
+}

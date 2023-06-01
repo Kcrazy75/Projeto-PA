@@ -13,8 +13,19 @@ typedef struct {
 typedef struct {
     char* id;
     int number_of_simulations;
+    int next_part_id;
+    HashTable particles;
     // TODO: Mais coisas
 } tSpace, *Space;
+
+typedef struct {  
+    double carga;
+    double massa;
+    double posicao[3];  
+    double velocidade[3];
+    double aceleracao[3];
+    char* part_id;
+} tParticle, *Particle;
 
 User new_user(char* name);
 
@@ -23,5 +34,7 @@ void free_user(User user);
 Space new_space(char* space_id);
 
 void free_space(void* space);
+
+void free_particle(void* particle);
 
 #endif

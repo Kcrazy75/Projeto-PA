@@ -71,6 +71,48 @@ void run_cli() {
                 printf("Espaço de simulação removido com sucesso.\n");
             }
         } else if (strcmp(command, "RP") == 0) {
+            char* name = strtok(NULL, " ");
+            char* space_id = strtok(NULL, " ");
+            char* massa_carga = NULL;
+            size_t space2 = 0;
+
+            getline(&massa_carga, &space2, stdin);
+            massa_carga[strlen(massa_carga) - 1] = '\0';
+            if (strlen(massa_carga) == 0) {
+                free(massa_carga);
+                return;
+            }
+
+            char* posicao = NULL;
+            size_t space3 = 0;
+
+            getline(&posicao, &space3, stdin);
+            posicao[strlen(posicao) - 1] = '\0';
+
+            char* velocidade = NULL;
+            size_t space4 = 0;
+
+            getline(&velocidade, &space4, stdin);
+            velocidade[strlen(velocidade) - 1] = '\0';
+
+            if (has_user(app, name) == false) {
+                printf("Utilizador nâo existe.\n");
+
+            } else if (has_space(app, name, space_id) == false) {
+                printf("Espaço de simulação inexistente.\n");
+            } else {
+                int id = regist_particle(app, name, space_id, massa_carga, posicao, velocidade);
+                if (id == 0) {
+                    printf("Instrução inválida.\n");
+                } else if (id == -1) {
+                    printf("Massa inválida.\n");
+                } else {
+                    printf("Partícula registada com identificador %d\n", id);
+                }
+            }
+            free(massa_carga);
+            free(posicao);
+            free(velocidade);
         } else if (strcmp(command, "AP") == 0) {
         } else if (strcmp(command, "S") == 0) {
         } else {

@@ -14,6 +14,8 @@ void free_app(App app);
 
 bool has_user(App app, char* name);
 
+bool has_space(App app, char* name, char* space_id);
+
 void register_user(App app, char* name);
 
 bool check_zero_sim_spaces(App app, char* name);
@@ -29,5 +31,7 @@ char* register_space(App app, char* user_name);
 bool check_if_space_exist(App app, char* name, char* space_id);
 
 void remove_simulation_space(App app, char* name, char* space_id);
+
+int regist_particle(App app, char* name, char* space_id, char* massa_carga, char* posicao, char* velocidade);
 
 #endif
